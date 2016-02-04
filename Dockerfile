@@ -1,17 +1,11 @@
-FROM ubuntu
+FROM mysql
 MAINTAINER Sohrab Khan <sohrab@sohrabkhan.com>
 
-RUN apt-get update && apt-get upgrade -yqq
+RUN apt-get update && apt-get upgrade -y
 
-#Install mysql
-COPY mysql_install.sh /mysql_install.sh
-RUN chmod 755 /mysql_install.sh
-RUN ./mysql_install.sh
-
-VOLUME ["/var/lib/mysql"]
+ENV MYSQL_ROOT_PASSWORD sample_password
+ENV MYSQL_DATABASE sample_db
 
 EXPOSE 3306
-#Run mysql service
-COPY mysql_run.sh /mysql_run.sh
-RUN chmod 755 /mysql_run.sh
-#RUN ./mysql_run.sh
+
+VOLUME ["data_dir", "/var/lib/mysql"]
